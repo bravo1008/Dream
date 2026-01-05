@@ -138,7 +138,7 @@ export default function DreamTV() {
 const fetchUserDreams = async () => {
   try {
     setLoadingDreams(true);
-    const res = await fetch(`http://localhost:5000/api/dream/list?deviceId=${deviceId}`);
+    const res = await fetch(`https://dream-gjai.onrender.com/api/dream/list?deviceId=${deviceId}`);
     const result = await res.json();
 
     if (result.success && Array.isArray(result.data)) {
@@ -174,7 +174,7 @@ const fetchUserDreams = async () => {
   setIsGenerating(true);
   try {
     // ✅ 把 deviceId 放到 URL 的 query 参数中
-    const url = `http://localhost:5000/api/dream/generate?deviceId=${encodeURIComponent(deviceId)}`;
+    const url = `https://dream-gjai.onrender.com/api/dream/generate?deviceId=${encodeURIComponent(deviceId)}`;
 
     const res = await fetch(url, {
       method: 'POST',
