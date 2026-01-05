@@ -12,8 +12,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   border: '1px solid #2d2d2d',
 }));
 
-const ChannelButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#1e3a8a',
+const ChannelButton = styled(Button)(({ theme, selected }) => ({
+  backgroundColor: selected ? '#007acc' : '#1e3a8a',
   color: 'white',
   border: '1px solid #007acc',
   borderRadius: '6px',
@@ -22,7 +22,7 @@ const ChannelButton = styled(Button)(({ theme }) => ({
   marginRight: '8px',
   marginBottom: '8px',
   '&:hover': {
-    backgroundColor: '#1d4ed8',
+    backgroundColor: selected ? '#005f99' : '#1d4ed8',
     transform: 'scale(1.02)',
   },
   '&:active': {
@@ -114,7 +114,7 @@ const sleepKnowledge = {
 export default function DreamTV() {
   const [dreamInput, setDreamInput] = useState('');
   const [theme, setTheme] = React.useState('');
-  const [style, setStyle] = React.useState('梦幻风格');
+  const [style, setStyle] = React.useState('');
   const [volume, setVolume] = React.useState(50);
   const [activeTab, setActiveTab] = React.useState('insomnia'); // 'insomnia' | 'hypersomnia' | 'treatment'
   const [isGenerating, setIsGenerating] = useState(false);
@@ -191,6 +191,8 @@ const fetchUserDreams = async () => {
     if (result.success && result.data?.imageUrl) {
       await fetchUserDreams(); // 刷新列表
       setDreamInput('');
+      setTheme('');            // ✅ 重置主题
+      setStyle('');            // ✅ 重置风格
     } else {
       alert('生成失败：' + (result.error || '未知错误'));
     }
@@ -277,12 +279,12 @@ const fetchUserDreams = async () => {
               梦境主题
             </Typography>
             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              <ChannelButton onClick={() => setTheme('奇幻冒险')}>奇幻冒险</ChannelButton>
-              <ChannelButton onClick={() => setTheme('未来科技')}>未来科技</ChannelButton>
-              <ChannelButton onClick={() => setTheme('自然奇观')}>自然奇观</ChannelButton>
-              <ChannelButton onClick={() => setTheme('浪漫情缘')}>浪漫情缘</ChannelButton>
-              <ChannelButton onClick={() => setTheme('神秘探索')}>神秘探索</ChannelButton>
-              <ChannelButton onClick={() => setTheme('甜蜜温馨')}>甜蜜温馨</ChannelButton>
+              <ChannelButton selected={theme === '奇幻冒险'} onClick={() => setTheme('奇幻冒险')}>奇幻冒险</ChannelButton>
+              <ChannelButton selected={theme === '未来科技'} onClick={() => setTheme('未来科技')}>未来科技</ChannelButton>
+              <ChannelButton selected={theme === '自然奇观'} onClick={() => setTheme('自然奇观')}>自然奇观</ChannelButton>
+              <ChannelButton selected={theme === '浪漫情缘'} onClick={() => setTheme('浪漫情缘')}>浪漫情缘</ChannelButton>
+              <ChannelButton selected={theme === '神秘探索'} onClick={() => setTheme('神秘探索')}>神秘探索</ChannelButton>
+              <ChannelButton selected={theme === '甜蜜温馨'} onClick={() => setTheme('甜蜜温馨')}>甜蜜温馨</ChannelButton>
             </Box>
           </StyledPaper>
 
@@ -292,24 +294,12 @@ const fetchUserDreams = async () => {
               画面风格
             </Typography>
             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-              <ChannelButton onClick={() => setStyle('梦幻风格')} selected={style === '梦幻风格'}>
-                梦幻风格
-              </ChannelButton>
-              <ChannelButton onClick={() => setStyle('写实风格')} selected={style === '写实风格'}>
-                写实风格
-              </ChannelButton>
-              <ChannelButton onClick={() => setStyle('卡通风格')} selected={style === '卡通风格'}>
-                卡通风格
-              </ChannelButton>
-              <ChannelButton onClick={() => setStyle('油画风格')} selected={style === '油画风格'}>
-                油画风格
-              </ChannelButton>
-              <ChannelButton onClick={() => setStyle('水彩风格')} selected={style === '水彩风格'}>
-                水彩风格
-              </ChannelButton>
-              <ChannelButton onClick={() => setStyle('简笔风格')} selected={style === '简笔风格'}>
-                简笔风格
-              </ChannelButton>
+              <ChannelButton selected={style === '梦幻风格'} onClick={() => setStyle('梦幻风格')}>梦幻风格</ChannelButton>
+              <ChannelButton selected={style === '写实风格'} onClick={() => setStyle('写实风格')}>写实风格</ChannelButton>
+              <ChannelButton selected={style === '卡通风格'} onClick={() => setStyle('卡通风格')}>卡通风格</ChannelButton>
+              <ChannelButton selected={style === '油画风格'} onClick={() => setStyle('油画风格')}>油画风格</ChannelButton>
+              <ChannelButton selected={style === '水彩风格'} onClick={() => setStyle('水彩风格')}>水彩风格</ChannelButton>
+              <ChannelButton selected={style === '简笔风格'} onClick={() => setStyle('简笔风格')}>简笔风格</ChannelButton>
             </Box>
           </StyledPaper>
 
