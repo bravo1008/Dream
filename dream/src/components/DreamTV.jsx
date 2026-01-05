@@ -207,7 +207,7 @@ const fetchUserDreams = async () => {
   };
 
   return (
-    <Box sx={{ p: 4, maxWidth: 1000, margin: 'auto' }}>
+    <Box sx={{ p: 2, maxWidth: 1200, margin: 'auto' }}>
       {/* 电视边框 */}
       <div className="crt-border">
         {/* 电视顶部 */}
@@ -321,7 +321,7 @@ const fetchUserDreams = async () => {
             <Box sx={{ display: 'flex', gap: '8px', mb: 2 }}>
               <Button
                 variant="outlined"
-                size="小型"
+                size="small"
                 onClick={() => handleTabClick('insomnia')}
                 sx={{
                   color: activeTab === 'insomnia' ? '#00ffcc' : '#aaa',
@@ -332,7 +332,7 @@ const fetchUserDreams = async () => {
               </Button>
               <Button
                 variant="outlined"
-                size="小型"
+                size="small"
                 onClick={() => handleTabClick('hypersomnia')}
                 sx={{
                   color: activeTab === 'hypersomnia' ? '#00ffcc' : '#aaa',
@@ -343,7 +343,7 @@ const fetchUserDreams = async () => {
               </Button>
               <Button
                 variant="outlined"
-                size="小型"
+                size="small"
                 onClick={() => handleTabClick('treatment')}
                 sx={{
                   color: activeTab === 'treatment' ? '#00ffcc' : '#aaa',
@@ -353,29 +353,76 @@ const fetchUserDreams = async () => {
                 科学治疗
               </Button>
             </Box>
-            <Box sx={{ bgcolor: '#1e1e1e', p: 2, borderRadius: '6px', maxHeight: '200px', overflowY: 'auto' }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: '#ccc',
-                  lineHeight: 1.8,
-                  whiteSpace: 'pre-wrap',
-                  position: 'relative',
-                  paddingLeft: '20px',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    left: '0',
-                    top: '0',
-                    bottom: '0',
-                    width: '4px',
-                    background: '#007acc',
-                    borderRadius: '2px',
-                  },
-                }}
-              >
-                {sleepKnowledge[activeTab]}
-              </Typography>
+
+            {/* 滚动容器：保留原滑动栏 */}
+            <Box
+              sx={{
+                maxHeight: '200px',
+                overflowY: 'auto',
+                pr: 1, // 防止滚动条遮挡内容
+                '&::-webkit-scrollbar': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: '#1e1e1e',
+                  borderRadius: '3px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#007acc',
+                  borderRadius: '3px',
+                },
+              }}
+            >
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {sleepKnowledge[activeTab]
+                  .split('\n')
+                  .map((line, index) => {
+                    if (!line.trim()) return null;
+                    return (
+                      <Box
+                        key={index}
+                        sx={{
+                          position: 'relative',
+                          paddingLeft: '20px',
+                          '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            left: '0',
+                            top: '0',
+                            bottom: '0',
+                            width: '4px',
+                            background: '#007acc',
+                            borderRadius: '2px',
+                          },
+                        }}
+                      >
+                        <StyledPaper
+                          sx={{
+                            p: 2,
+                            fontSize: '14px',
+                            lineHeight: 1.6,
+                            minHeight: '18px',
+                            wordBreak: 'break-word',
+                            border: '1px solid #2d2d2d',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                            backgroundColor: '#1a1a1a',
+                          }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: '#ccc',
+                              fontWeight:
+                                'normal',
+                            }}
+                          >
+                            {line}
+                          </Typography>
+                        </StyledPaper>
+                      </Box>
+                    );
+                  })}
+              </Box>
             </Box>
           </StyledPaper>
 
